@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\AuthController ;
+use App\Http\Controllers\API\SectionController;
+use App\Http\Controllers\API\SubSectionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +30,10 @@ Route::middleware('jwt.refresh')->post('/refresh', [AuthController::class, 'refr
 Route::get('me', [AuthController::class, 'me'])->middleware('auth:api');
 Route::post('register', [AuthController::class, 'register']);
 Route::post('profile', [AuthController::class, 'updateProfile'])->middleware('auth:api');
+Route::middleware('auth:api')->group(function(){
+    Route::get('sections',[SectionController::class, 'index']);
+    Route::get('sections/{id}',[SectionController::class, 'show']);
+
+    Route::get('sub-sections',[SubSectionController::class, 'index']);
+    Route::get('sub-sections/{id}',[SubSectionController::class, 'show']);
+});
