@@ -67,4 +67,8 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims() {
         return [];
     }
+    public function writer()
+    {
+        return $this->hasOne(Writer::class);
+    }
 }

@@ -19,7 +19,18 @@
             </a>
         </li>
 
-          
+        <li class="nav-item {{ Route::is('admin.about_us.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.about_us.index') }}">
+                <i class="ft-info"></i>
+                <span>{{ __('About Us') }}</span>
+            </a>
+        </li>
+          <li class="nav-item {{ Route::is('admin.contact_us.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.contact_us.index') }}">
+                <i class="ft-info"></i>
+                <span>{{ __('Contact Us') }}</span>
+            </a>
+        </li>
         
     </ul>
 </div>

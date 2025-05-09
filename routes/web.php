@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutUsController;
+use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SubsectionController;
@@ -37,4 +39,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::resource('sections', SectionController::class);
     Route::resource('subsections', SubsectionController::class);
+    Route::resource('contact_us', ContactUsController::class);
+    Route::resource('about_us', AboutUsController::class);
 });

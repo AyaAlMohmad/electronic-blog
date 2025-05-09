@@ -11,7 +11,7 @@ class Writer extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['name', 'bio', 'image', 'subsection_id'];
+    protected $fillable = ['name','user_id', 'bio', 'image', 'subsection_id'];
     public $translatable = ['name', 'bio'];
 
     public function subsection()
@@ -22,5 +22,9 @@ class Writer extends Model
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\API\AboutUsController;
 use App\Http\Controllers\API\AuthController ;
+use App\Http\Controllers\API\ContactUsController;
+use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\SectionController;
 use App\Http\Controllers\API\SubSectionController;
 use Illuminate\Http\Request;
@@ -36,4 +39,14 @@ Route::middleware('auth:api')->group(function(){
 
     Route::get('sub-sections',[SubSectionController::class, 'index']);
     Route::get('sub-sections/{id}',[SubSectionController::class, 'show']);
+ 
+
+Route::get('/about-us', [AboutUsController::class, 'index']);
+Route::get('/about-us/{id}', [AboutUsController::class, 'show']);
+
+
+Route::get('/contact-us', [ContactUsController::class, 'index']);
+Route::get('/contact-us/{id}', [ContactUsController::class, 'show']);
+Route::get('posts', [PostController::class, 'index']);
+Route::get('posts/{id}', [PostController::class, 'show']);
 });

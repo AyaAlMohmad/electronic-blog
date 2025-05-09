@@ -14,7 +14,8 @@ return new class extends Migration
  
             Schema::create('writers', function (Blueprint $table) {
                 $table->id();
-                $table->json('name');
+                $table->string('name');
+                $table->foreignId('user_id')->constrained()->cascadeOnDelete();
                 $table->foreignId('subsection_id')->constrained()->cascadeOnDelete();
                 $table->string('image')->nullable();
                 $table->json('bio')->nullable();
