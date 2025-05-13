@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SubsectionController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\WriterController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,4 +43,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
     Route::resource('subsections', SubsectionController::class);
     Route::resource('contact_us', ContactUsController::class);
     Route::resource('about_us', AboutUsController::class);
+    Route::resource('users', UserController::class);
+    Route::get('/writers/pending', [WriterController::class, 'pendingRequests'])->name('writers.pending');
+    Route::get('/writers/approved', [WriterController::class, 'approvedWriters'])->name('writers.approved');
+    Route::get('/writers/{id}', [WriterController::class, 'show'])->name('writers.show');
+    
+    // Approve writers
+    Route::get('/writers/approve/{user}', [WriterController::class, 'approveForm'])->name('writers.approve-form');
+    Route::post('/writers/approve/{user}', [WriterController::class, 'approve'])->name('writers.approve');
+    
+    // Reject request
+    Route::delete('/writers/reject/{user}', [WriterController::class, 'reject'])->name('writers.reject');
+    
+    // Revoke privileges
+    Route::delete('/writers/revoke/{user}', [WriterController::class, 'revoke'])->name('writers.revoke');
+
 });

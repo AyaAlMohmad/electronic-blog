@@ -7,7 +7,7 @@
         </div>
         <div class="card-content">
             <div class="card-body">
-                <form action="{{ route('admin.sections.update',$section->id) }}" method="POST">
+                <form action="{{ route('admin.sections.update',$section->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="nav-tabs-top">
@@ -49,6 +49,15 @@
                         </div>
                     </div>
                     
+                    <div class="form-group">
+                        <label for="image">{{ __('Image') }}</label>
+                        <img src="{{  asset('storage/'. $section->image) }}" alt="{{ $section->name }}" width="100">
+                        <input type="file" class="form-control" id="image" name="image">
+                        @error('image')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                     <div class="form-actions right mt-3">
                         <a href="{{ route('admin.sections.index') }}" class="btn btn-warning mr-1">
                             <i class="ft-x"></i> {{ __('Cancel') }}

@@ -9,7 +9,7 @@ class Section extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','image'];
     public $translatable = ['name'];
 
     public function subsections()

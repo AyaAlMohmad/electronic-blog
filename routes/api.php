@@ -47,6 +47,6 @@ Route::get('/about-us/{id}', [AboutUsController::class, 'show']);
 
 Route::get('/contact-us', [ContactUsController::class, 'index']);
 Route::get('/contact-us/{id}', [ContactUsController::class, 'show']);
-Route::get('posts', [PostController::class, 'index']);
-Route::get('posts/{id}', [PostController::class, 'show']);
+Route::apiResource('posts', PostController::class);
+// Route::get('posts/{id}', [PostController::class, 'show']);
 });

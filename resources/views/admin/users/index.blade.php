@@ -7,18 +7,14 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Sections</h4>
+                    <h4 class="card-title">Users</h4>
                     <div class="heading-elements">
                         <ul class="list-inline mb-0">
                             <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
                             <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
                             <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
                             <li><a data-action="close"><i class="ft-x"></i></a></li>
-                            <li>
-                                <a href="{{ route('admin.sections.create') }}" class="btn btn-sm btn-primary">
-                                    <i class="ft-plus"></i> Create New
-                                </a>
-                            </li>
+                            
                         </ul>
                     </div>
                 </div>
@@ -27,33 +23,34 @@
                         <table class="table table-striped table-bordered zero-configuration">
                             <thead>
                                 <tr>
-                                    <th>Name (AR)</th>
-                                    <th>Name (EN)</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
                                     <th>Image</th>
                                     <th style="width: 120px">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($sections as $section)
+                                @foreach ($users as $user)
                                 <tr>
-                                    <td>{{ $section->getTranslation('name', 'ar') ?? '-' }}</td>
-                                    <td>{{ $section->getTranslation('name', 'en') ?? '-' }}</td>
+                                    <td>{{ $user->name}}</td>
+                                    <td>{{ $user->email}}</td>
+                      
                                     <td>
-                                        <img src="{{ asset('storage/'. $section->image) }}" alt="{{ $section->name }}" width="100">
+                                        <img src="{{ $user->image_path}}" alt="{{ $user->name }}" width="100">
                                     </td>
                                     <td>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <a href="{{ route('admin.sections.show', $section->id) }}" 
+                                            <a href="{{ route('admin.users.show', $user->id) }}" 
                                                class="btn btn-sm btn-outline-primary" 
                                                title="View">
                                                 <i class="ft-eye"></i>
                                             </a>
-                                            <a href="{{ route('admin.sections.edit', $section->id) }}" 
+                                            <a href="{{ route('admin.users.edit', $user->id) }}" 
                                                class="btn btn-sm btn-outline-warning" 
                                                title="Edit">
                                                 <i class="ft-edit"></i>
                                             </a>
-                                            <form action="{{ route('admin.sections.destroy', $section->id) }}" 
+                                            <form action="{{ route('admin.users.destroy', $user->id) }}" 
                                                   method="POST" 
                                                   class="d-inline">
                                                 @csrf

@@ -9,13 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('sections', function (Blueprint $table) {
-            $table->id();
-            $table->string('image')->nullable();
-            $table->json('name');
-            $table->timestamps();
+        Schema::table('posts', function (Blueprint $table) {
+            $table->boolean('is_approved')->default(false)->after('writer_id');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sections');
+        Schema::table('posts', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -12,7 +12,7 @@ class Writer extends Model
     use HasTranslations;
 
     protected $fillable = ['name','user_id', 'bio', 'image', 'subsection_id'];
-    public $translatable = ['name', 'bio'];
+    public $translatable = ['bio'];
 
     public function subsection()
     {

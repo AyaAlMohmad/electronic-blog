@@ -31,6 +31,29 @@
                 <span>{{ __('Contact Us') }}</span>
             </a>
         </li>
+        <li class="nav-item has-submenu {{ Route::is('admin.users.*') ? 'active' : '' }}">
+            <a href="#">
+                <i class="ft-users"></i>
+                <span>{{ __('Users') }}</span>
+            
+            </a>
+            <ul class="submenu">
+                <li class="{{ Route::is('admin.users.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.users.index') }}">
+                        <i class="ft-list"></i>
+                        <span>{{ __(' Users') }}</span>
+                    </a>
+                </li>
+                <li class="{{ Route::is('admin.writers.pending') ? 'active' : '' }}">
+                    <a href="{{ route('admin.writers.pending') }}">
+                        <i class="ft-list"></i>
+                        <span>{{ __(' Writers') }}</span>
+                    </a>
+                </li>
+               
+           
+            </ul>
+        </li>
         
     </ul>
 </div>

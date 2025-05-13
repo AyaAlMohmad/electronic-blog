@@ -7,7 +7,7 @@
         </div>
         <div class="card-content">
             <div class="card-body">
-                <form action="{{ route('admin.sections.store') }}" method="POST">
+                <form action="{{ route('admin.sections.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
                     <div class="nav-tabs-top">
@@ -46,6 +46,13 @@
                             </div>
                             @endforeach
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">{{ __('Image') }}</label>
+                        <input type="file" class="form-control" id="image" name="image" required>
+                        @error('image')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     <div class="form-actions right mt-3">

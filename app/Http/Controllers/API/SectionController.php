@@ -10,7 +10,10 @@ class SectionController extends Controller
 {
     public function index()
     {
-        $sections = Section::select('id', 'name')->get();
+        $sections = Section::select('id', 'name','image')->get();
+        $sections->each(function ($section) {
+            $section->image ='/storage/' . $section->image;
+        });
         return response()->json([
             'status' => 'success',
             'data' => $sections
@@ -19,7 +22,8 @@ class SectionController extends Controller
 
     public function show($id)
     {
-        $section = Section::select('id', 'name')->findOrFail($id);
+        $section = Section::select('id', 'name','image')->findOrFail($id);
+        $section->image = '/storage/' . $section->image;
         return response()->json([
             'status' => 'success', 
             'data' => $section
