@@ -25,13 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('lang/{locale}', function ($locale) {
-    if (in_array($locale, ['en', 'ar'])) {
-        session(['locale' => $locale]);
-        app()->setLocale($locale);
-    }
-    return redirect()->back();
-})->name('lang.switch');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -46,6 +40,13 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(function () {
+    Route::get('lang/{locale}', function ($locale) {
+        if (in_array($locale, ['en', 'ar'])) {
+            session()->put('locale', $locale);
+            app()->setLocale($locale);
+        }
+        return redirect()->back();
+    })->name('lang.switch')->middleware('web');
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::resource('sections', SectionController::class);
     Route::resource('subsections', SubsectionController::class);
