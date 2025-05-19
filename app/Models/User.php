@@ -71,4 +71,16 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Writer::class);
     }
+    // في App\Models\User
+public function posts()
+{
+    return $this->hasManyThrough(
+        Post::class,
+        Writer::class,
+        'user_id', // Foreign key on writers table
+        'writer_id', // Foreign key on posts table
+        'id', // Local key on users table
+        'id' // Local key on writers table
+    );
+}
 }

@@ -38,14 +38,14 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('admin.writers.show', $user->writer->id) }}" class="btn btn-sm btn-info">
-                                    <i class="fas fa-eye"></i> View
+                                <a href="{{ route('admin.writers.show', $user->writer->id) }}" title="View"  class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i> 
                                 </a>
                                 <form action="{{ route('admin.writers.revoke', $user->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Revoke writer privileges?')">
-                                        <i class="fas fa-user-minus"></i> Revoke
+                                    <button type="submit" class="btn btn-sm btn-outline-warning" title="Revoke" onclick="return confirm('Revoke writer privileges?')">
+                                        <i class="fas fa-user-minus"></i> 
                                     </button>
                                 </form>
                             </td>

@@ -56,16 +56,16 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('admin.writers.approve-form', $user->id) }}"
-                                                    class="btn btn-sm btn-success">
-                                                    <i class="fas fa-check"></i> Approve
+                                                    class="btn btn-sm btn-outline-success" title="Approve">
+                                                    <i class="fas fa-check"></i> 
                                                 </a>
                                                 <form action="{{ route('admin.writers.reject', $user->id) }}" method="POST"
                                                     class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Are you sure?')">
-                                                        <i class="fas fa-times"></i> Reject
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Are you sure?')" title="Reject">
+                                                        <i class="fas fa-times"></i> 
                                                     </button>
                                                 </form>
                                             </td>

@@ -18,7 +18,10 @@ class Post extends Model
         'title',
         'description',
         'short_description',
-        'date'
+        'date',
+        'is_approved',
+        'action_type',
+        'approved_at'
     ];
 
     public $translatable = ['title', 'description', 'short_description'];

@@ -66,7 +66,8 @@ class PostController extends Controller
                 'description' => $description,
                 'date' => $request->date,
                 'writer_id' => Auth::user()->writer->id,
-                'is_approved' => false
+                'is_approved' => false,
+                'action_type' => 'create',
             ];
     
             // Handle image upload
@@ -203,6 +204,7 @@ class PostController extends Controller
                 $postData['video'] = '/storage/' . $path;
             }
             $postData['is_approved' ]= false;
+            $postData['action_type' ]= 'update';
             $post->update($postData);
     
             return response()->json([

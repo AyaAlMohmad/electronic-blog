@@ -16,4 +16,16 @@ class Section extends Model
     {
         return $this->hasMany(Subsection::class);
     }
+    // في App\Models\Section
+public function posts()
+{
+    return $this->hasManyThrough(
+        Post::class,
+        Subsection::class,
+        'section_id', // Foreign key on subsections table
+        'subsection_id', // Foreign key on posts table (عبر Writer)
+        'id', // Local key on sections table
+        'id' // Local key on subsections table
+    );
+}
 }
