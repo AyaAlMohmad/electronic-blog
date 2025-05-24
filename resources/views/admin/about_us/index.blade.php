@@ -1,22 +1,21 @@
 @extends('layouts.app')
 @section('content')
 
-<!-- Section table -->
 <section id="configuration">
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">About Us</h4>
+                    <h4 class="card-title">@lang('admin.about_us.index.title')</h4>
                     <div class="heading-elements">
                         <ul class="list-inline mb-0">
-                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                            <li><a data-action="collapse" title="@lang('admin.about_us.index.card.collapse')"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="reload" title="@lang('admin.about_us.index.card.reload')"><i class="ft-rotate-cw"></i></a></li>
+                            <li><a data-action="expand" title="@lang('admin.about_us.index.card.expand')"><i class="ft-maximize"></i></a></li>
+                            <li><a data-action="close" title="@lang('admin.about_us.index.card.close')"><i class="ft-x"></i></a></li>
                             <li>
                                 <a href="{{ route('admin.about_us.create') }}" class="btn btn-sm btn-primary">
-                                    <i class="ft-plus"></i> Create New
+                                    <i class="ft-plus"></i> @lang('admin.about_us.index.create_button')
                                 </a>
                             </li>
                         </ul>
@@ -27,23 +26,19 @@
                         <table class="table table-striped table-bordered zero-configuration">
                             <thead>
                                 <tr>
-                                    <th>Title (AR)</th>
-                                    <th>Title (EN)</th>
-                                    {{-- <th>Description (AR)</th>
-                                    <th>Description (EN)</th> --}}
-                                    <th>Short Description (AR)</th>
-                                    <th>Short Description (EN)</th>
-                                    <th>Image</th>
-                                    <th style="width: 120px">Actions</th>
+                                    <th>@lang('admin.about_us.index.table.title_ar')</th>
+                                    <th>@lang('admin.about_us.index.table.title_en')</th>
+                                    <th>@lang('admin.about_us.index.table.short_description_ar')</th>
+                                    <th>@lang('admin.about_us.index.table.short_description_en')</th>
+                                    <th>@lang('admin.about_us.index.table.image')</th>
+                                    <th style="width: 120px">@lang('admin.about_us.index.table.actions')</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($about_us as $about)
+                                @forelse ($about_us as $about)
                                 <tr>
                                     <td>{{ $about->getTranslation('title', 'ar') ?? '-' }}</td>
                                     <td>{{ $about->getTranslation('title', 'en') ?? '-' }}</td>
-                                    {{-- <td>{{ $about->getTranslation('description', 'ar') ?? '-' }}</td>
-                                   <td>{{ $about->getTranslation('description', 'en') ?? '-' }}</td> --}}
                                     <td>{{ $about->getTranslation('short_description', 'ar') ?? '-' }}</td>
                                     <td>{{ $about->getTranslation('short_description', 'en') ?? '-' }}</td>
                                     <td>
@@ -55,12 +50,12 @@
                                         <div class="btn-group btn-group-sm" role="group">
                                             <a href="{{ route('admin.about_us.show', $about->id) }}" 
                                                class="btn btn-sm btn-outline-primary" 
-                                               title="View">
+                                               title="@lang('admin.about_us.index.actions.view')">
                                                 <i class="ft-eye"></i>
                                             </a>
                                             <a href="{{ route('admin.about_us.edit', $about->id) }}" 
                                                class="btn btn-sm btn-outline-warning" 
-                                               title="Edit">
+                                               title="@lang('admin.about_us.index.actions.edit')">
                                                 <i class="ft-edit"></i>
                                             </a>
                                             <form action="{{ route('admin.about_us.destroy', $about->id) }}" 
@@ -70,15 +65,19 @@
                                                 @method('DELETE')
                                                 <button type="submit" 
                                                         class="btn btn-sm btn-outline-danger" 
-                                                        title="Delete"
-                                                        onclick="return confirm('Are you sure?')">
+                                                        title="@lang('admin.about_us.index.actions.delete')"
+                                                        onclick="return confirm('@lang('admin.about_us.index.actions.delete_confirm')')">
                                                     <i class="ft-trash-2"></i>
                                                 </button>
                                             </form>
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">@lang('admin.about_us.index.table.no_data')</td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

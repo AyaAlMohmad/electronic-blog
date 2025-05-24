@@ -3,7 +3,7 @@
 <div class="col-xl-8 col-lg-10 mx-auto">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">{{ __('Edit Contact Info') }}</h4>
+            <h4 class="card-title">@lang('admin.contact_us.edit.title')</h4>
         </div>
         <div class="card-content">
             <div class="card-body">
@@ -12,7 +12,7 @@
                     @method('PUT')
 
                     <div class="form-group">
-                        <label for="email">{{ __('Email') }}</label>
+                        <label for="email">@lang('admin.contact_us.show.email')</label>
                         <input type="email" 
                                class="form-control" 
                                id="email" 
@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="phone">{{ __('Phone') }}</label>
+                        <label for="phone">@lang('admin.contact_us.show.phone')</label>
                         <input type="text" 
                                class="form-control" 
                                id="phone" 
@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="fax">{{ __('Fax') }}</label>
+                        <label for="fax">@lang('admin.contact_us.show.fax')</label>
                         <input type="text" 
                                class="form-control" 
                                id="fax" 
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="map">{{ __('Map URL') }}</label>
+                        <label for="map">@lang('admin.contact_us.show.map_url')</label>
                         <input type="url" 
                                class="form-control" 
                                id="map" 
@@ -77,7 +77,7 @@
                             <div class="tab-pane {{ $loop->first ? 'active' : '' }}" id="tab-{{ $locale }}">
                                 <div class="form-group">
                                     <label for="address_{{ $locale }}">
-                                        {{ __('Address') }} ({{ strtoupper($locale) }})
+                                        @lang('admin.contact_us.show.address') ({{ strtoupper($locale) }})
                                     </label>
                                     <input type="text"
                                            class="form-control"
@@ -95,10 +95,10 @@
 
                     <div class="form-actions right mt-3">
                         <a href="{{ route('admin.contact_us.index') }}" class="btn btn-warning mr-1">
-                            <i class="ft-x"></i> {{ __('Cancel') }}
+                            <i class="ft-x"></i> @lang('admin.contact_us.edit.cancel')
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-check-square-o"></i> {{ __('Save') }}
+                            <i class="fa fa-check-square-o"></i> @lang('admin.contact_us.edit.submit')
                         </button>
                     </div>
 

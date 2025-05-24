@@ -63,13 +63,14 @@ class WriterController extends Controller
                     ->where('writer_request', true)
                     ->where('is_writer', false)
                     ->firstOrFail();
-        
+    
         $validated = $request->validate([
-            'bio' => 'required|string',
+            'bio.ar' => 'required|string',
+            'bio.en' => 'required|string',
             'subsection_id' => 'required|exists:subsections,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-        
+    
         // Handle image upload
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -77,25 +78,28 @@ class WriterController extends Controller
         } elseif ($user->image_path) {
             $imagePath = $user->image_path;
         }
-        
+    
         // Create writer record
         $writer = Writer::create([
             'user_id' => $user->id,
-            'name' => ['en' => $user->name, 'ar' => $user->name], // Adjust translations as needed
-            'bio' => ['en' => $validated['bio'], 'ar' => $validated['bio']],
+            'name' =>  $user->name,
+            'bio' => [
+                'en' => $validated['bio']['en'],
+                'ar' => $validated['bio']['ar'],
+            ],
             'subsection_id' => $validated['subsection_id'],
             'image' => $imagePath
         ]);
-        
+    
         // Update user status
         $user->update([
             'is_writer' => true,
             'writer_request' => false
         ]);
-        
-        return redirect()->route('admin.writers.approved')->with('success', 'Writer approved successfully');
+    
+        return redirect()->route('admin.writers.approved')->with('success', __('Writer approved successfully'));
     }
-
+    
     /**
      * Reject a writer request
      */

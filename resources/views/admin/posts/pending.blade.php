@@ -6,16 +6,16 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Pending Posts</h4>
+                        <h4 class="card-title">@lang('admin.posts.pending.title')</h4>
                         <div class="heading-elements">
                             <ul class="list-inline mb-0">
-                                <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                                <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                                <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                                <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                <li><a data-action="collapse" title="@lang('admin.posts.pending.card.collapse')"><i class="ft-minus"></i></a></li>
+                                <li><a data-action="reload" title="@lang('admin.posts.pending.card.reload')"><i class="ft-rotate-cw"></i></a></li>
+                                <li><a data-action="expand" title="@lang('admin.posts.pending.card.expand')"><i class="ft-maximize"></i></a></li>
+                                <li><a data-action="close" title="@lang('admin.posts.pending.card.close')"><i class="ft-x"></i></a></li>
                                 <li>
                                     <a href="{{ route('admin.posts.approved') }}" class="btn btn-sm btn-primary">
-                                        <i class="ft-check"></i> Approved Posts
+                                        <i class="ft-check"></i> @lang('admin.posts.pending.approved_button')
                                     </a>
                                 </li>
                             </ul>
@@ -33,13 +33,13 @@
                             <table class="table table-striped table-bordered zero-configuration">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Writer</th>
-                                        <th>Date</th>
-                                        <th>Image</th>
-                                        <th>Action Type</th>
-                                        <th style="width: 150px">Actions</th>
+                                        <th>@lang('admin.posts.pending.table.id')</th>
+                                        <th>@lang('admin.posts.pending.table.title')</th>
+                                        <th>@lang('admin.posts.pending.table.writer')</th>
+                                        <th>@lang('admin.posts.pending.table.date')</th>
+                                        <th>@lang('admin.posts.pending.table.image')</th>
+                                        <th>@lang('admin.posts.pending.table.action_type')</th>
+                                        <th style="width: 150px">@lang('admin.posts.pending.table.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,25 +53,25 @@
                                                 @if ($post->image)
                                                     <img src="{{ $post->image }}" width="50" class="rounded">
                                                 @else
-                                                    <span class="badge badge-light">No Image</span>
+                                                    <span class="badge badge-light">@lang('admin.posts.details.no_image')</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if ($post->action_type === 'create')
-                                                    <span class="badge badge-success">New</span>
+                                                    <span class="badge badge-success">@lang('admin.posts.pending.table.new')</span>
                                                 @else
-                                                    <span class="badge badge-warning">Edited</span>
+                                                    <span class="badge badge-warning">@lang('admin.posts.pending.table.edited')</span>
                                                 @endif
                                             </td>
                                             <td>
                                                <a href="{{ route('admin.posts.show', $post->id) }}"
-                                                    class="btn btn-sm btn-outline-primary" title="View">
+                                                    class="btn btn-sm btn-outline-primary" title="@lang('admin.posts.pending.actions.view')">
                                                     <i class="ft-eye"></i>
                                                 </a>
                                             
                                                <form action="{{ route('admin.posts.approve', $post->id) }}" method="POST" class="d-inline">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-sm btn-outline-success" title="Approve">
+                                                    <button type="submit" class="btn btn-sm btn-outline-success" title="@lang('admin.posts.pending.actions.approve')">
                                                         <i class="fas fa-check"></i>
                                                     </button>
                                                 </form>
@@ -79,17 +79,16 @@
                                                <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete"
-                                                        onclick="return confirm('Are you sure?')">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="@lang('admin.posts.pending.actions.delete')"
+                                                        onclick="return confirm('@lang('admin.posts.pending.actions.confirm_delete')')">
                                                         <i class="ft-trash-2"></i>
                                                     </button>
                                                 </form>
                                             </td>
-                                            
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center">No pending posts found.</td>
+                                            <td colspan="7" class="text-center">@lang('admin.posts.pending.table.no_data')</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

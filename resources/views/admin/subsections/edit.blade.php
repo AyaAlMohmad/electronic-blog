@@ -4,7 +4,7 @@
 <div class="col-xl-8 col-lg-10 mx-auto">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">{{ __('Edit Subsection') }}</h4>
+            <h4 class="card-title">@lang('admin.subsections.edit.title')</h4>
         </div>
         <div class="card-content">
             <div class="card-body">
@@ -13,9 +13,9 @@
                     @method('PUT')
                     
                     <div class="form-group">
-                        <label for="section_id">{{ __('Section') }}</label>
+                        <label for="section_id">@lang('admin.subsections.form.section')</label>
                         <select name="section_id" id="section_id" class="form-control" required>
-                            <option value="">{{ __('Select Section') }}</option>
+                            <option value="">@lang('admin.subsections.edit.select_section')</option>
                             @foreach($sections as $section)
                             <option value="{{ $section->id }}" {{ $subsection->section_id == $section->id ? 'selected' : '' }}>
                                 {{ $section->getTranslation('name', app()->getLocale()) }}
@@ -46,14 +46,14 @@
                                  role="tabpanel">
                                 <div class="form-group">
                                     <label for="name_{{ $locale }}">
-                                        {{ __('Name') }} ({{ strtoupper($locale) }})
+                                        @lang('admin.subsections.form.name') ({{ strtoupper($locale) }})
                                     </label>
                                     <input type="text" 
                                            class="form-control" 
                                            id="name_{{ $locale }}" 
                                            name="name[{{ $locale }}]" 
                                            value="{{ $subsection->getTranslation('name', $locale) }}"
-                                           placeholder="{{ __('Enter name in :locale', ['locale' => $locale]) }}"
+                                           placeholder="@lang('admin.subsections.form.name_placeholder', ['locale' => $locale])"
                                            {{ $loop->first ? 'required' : '' }}>
                                     @error('name.'.$locale)
                                         <span class="text-danger">{{ $message }}</span>
@@ -66,10 +66,10 @@
                     
                     <div class="form-actions right mt-3">
                         <a href="{{ route('admin.subsections.index') }}" class="btn btn-warning mr-1">
-                            <i class="ft-x"></i> {{ __('Cancel') }}
+                            <i class="ft-x"></i> @lang('admin.subsections.edit.cancel')
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-check-square-o"></i> {{ __('Update') }}
+                            <i class="fa fa-check-square-o"></i> @lang('admin.subsections.edit.submit')
                         </button>
                     </div>
                 </form>

@@ -4,7 +4,7 @@
 <style>
     .chart-container {
         position: relative;
-        height: 250px; /* أو أي ارتفاع تفضله */
+        height: 250px;
         width: 100%;
     }
     
@@ -12,13 +12,24 @@
         width: 100% !important;
         height: 100% !important;
     }
+    
+    /* RTL support for Arabic */
+    html[dir="rtl"] .card-body {
+        text-align: right;
+    }
+    html[dir="rtl"] .d-flex.justify-content-between {
+        flex-direction: row-reverse;
+    }
+    html[dir="rtl"] .list-group-item {
+        text-align: right;
+    }
 </style>
     <div class="container">
         <div class="card p-4 shadow">
             <!-- Header Section -->
             <div class="text-center mb-4">
-                <h2 class="fw-bold text-primary">Admin Dashboard</h2>
-                <p class="text-muted">Overview of your platform's performance</p>
+                <h2 class="fw-bold text-primary">@lang('admin.dashboard.title')</h2>
+                <p class="text-muted">@lang('admin.dashboard.description')</p>
             </div>
 
             <!-- Summary Stats Cards -->
@@ -28,7 +39,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h5 class="card-title">Total Posts</h5>
+                                    <h5 class="card-title">@lang('admin.dashboard.stats.total_posts')</h5>
                                     <h3 class="mb-0">{{ $stats['total_posts'] }}</h3>
                                 </div>
                                 <i class="fas fa-newspaper fa-2x opacity-50"></i>
@@ -41,7 +52,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h5 class="card-title">Approved Posts</h5>
+                                    <h5 class="card-title">@lang('admin.dashboard.stats.approved_posts')</h5>
                                     <h3 class="mb-0">{{ $stats['approved_posts'] }}</h3>
                                 </div>
                                 <i class="fas fa-check-circle fa-2x opacity-50"></i>
@@ -54,7 +65,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h5 class="card-title">Pending Posts</h5>
+                                    <h5 class="card-title">@lang('admin.dashboard.stats.pending_posts')</h5>
                                     <h3 class="mb-0">{{ $pendingPosts }}</h3>
                                 </div>
                                 <i class="fas fa-clock fa-2x opacity-50"></i>
@@ -67,7 +78,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h5 class="card-title">Writer Requests</h5>
+                                    <h5 class="card-title">@lang('admin.dashboard.stats.writer_requests')</h5>
                                     <h3 class="mb-0">{{ $stats['writer_requests'] }}</h3>
                                 </div>
                                 <i class="fas fa-user-edit fa-2x opacity-50"></i>
@@ -84,7 +95,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h5 class="card-title">Total Comments</h5>
+                                    <h5 class="card-title">@lang('admin.dashboard.stats.total_comments')</h5>
                                     <h3 class="mb-0">{{ $totalComments }}</h3>
                                 </div>
                                 <i class="fas fa-comments fa-2x opacity-50"></i>
@@ -97,7 +108,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h5 class="card-title">Avg Likes/Post</h5>
+                                    <h5 class="card-title">@lang('admin.dashboard.stats.avg_likes_per_post')</h5>
                                     <h3 class="mb-0">{{ $stats['avg_likes_per_post'] }}</h3>
                                 </div>
                                 <i class="fas fa-thumbs-up fa-2x opacity-50"></i>
@@ -110,7 +121,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h5 class="card-title">Approval Rate</h5>
+                                    <h5 class="card-title">@lang('admin.dashboard.stats.approval_rate')</h5>
                                     <h3 class="mb-0">{{ $stats['approval_rate'] }}%</h3>
                                 </div>
                                 <i class="fas fa-chart-line fa-2x opacity-50"></i>
@@ -126,7 +137,7 @@
                 <div class="col-lg-6">
                     <div class="card h-100">
                         <div class="card-header bg-white">
-                            <h5 class="fw-bold mb-0">📅 Monthly Posts</h5>
+                            <h5 class="fw-bold mb-0">@lang('admin.dashboard.charts.monthly_posts')</h5>
                         </div>
                         <div class="chart-container">
                             <canvas id="monthlyPostsChart"></canvas>
@@ -138,7 +149,7 @@
                 <div class="col-lg-6">
                     <div class="card h-100">
                         <div class="card-header bg-white">
-                            <h5 class="fw-bold mb-0">🏷️ Most Used Categories</h5>
+                            <h5 class="fw-bold mb-0">@lang('admin.dashboard.charts.top_categories')</h5>
                         </div>
                         <div class="chart-container">
                             <canvas id="topCategoriesChart" height="250"></canvas>
@@ -153,7 +164,7 @@
                 <div class="col-lg-6">
                     <div class="card h-100">
                         <div class="card-header bg-white">
-                            <h5 class="fw-bold mb-0">👍 Top Liked Posts</h5>
+                            <h5 class="fw-bold mb-0">@lang('admin.dashboard.charts.top_liked_posts')</h5>
                         </div>
                         <div class="chart-container">
                             <canvas id="likesChart" height="250"></canvas>
@@ -165,7 +176,7 @@
                 <div class="col-lg-6">
                     <div class="card h-100">
                         <div class="card-header bg-white">
-                            <h5 class="fw-bold mb-0">💬 Top Commented Posts</h5>
+                            <h5 class="fw-bold mb-0">@lang('admin.dashboard.charts.top_commented_posts')</h5>
                         </div>
                         <div class="chart-container">
                             <canvas id="commentsChart" height="250"></canvas>
@@ -180,7 +191,7 @@
                 <div class="col-lg-6">
                     <div class="card h-100">
                         <div class="card-header bg-white">
-                            <h5 class="fw-bold mb-0">🧑‍💻 Top Writers</h5>
+                            <h5 class="fw-bold mb-0">@lang('admin.dashboard.charts.top_writers')</h5>
                         </div>
                         <div class="chart-container">
                             <canvas id="topWritersChart" height="250"></canvas>
@@ -192,7 +203,7 @@
                 <div class="col-lg-6">
                     <div class="card h-100">
                         <div class="card-header bg-white">
-                            <h5 class="fw-bold mb-0">🌟 Most Active Writers</h5>
+                            <h5 class="fw-bold mb-0">@lang('admin.dashboard.charts.active_writers')</h5>
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
@@ -200,9 +211,9 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <div>
                                             <span class="fw-bold">{{ $writer->user->name }}</span>
-                                            <small class="text-muted d-block">{{ $writer->posts_count }} posts</small>
+                                            <small class="text-muted d-block">{{ $writer->posts_count }} @lang('admin.dashboard.units.posts')</small>
                                         </div>
-                                        <span class="badge bg-primary rounded-pill">{{ $writer->total_likes }} likes</span>
+                                        <span class="badge bg-primary rounded-pill">{{ $writer->total_likes }} @lang('admin.dashboard.units.likes')</span>
                                     </li>
                                 @endforeach
                             </ul>
@@ -216,9 +227,9 @@
                 <div class="col-12">
                     <div class="card text-center py-3 bg-light">
                         <div class="card-body">
-                            <h4 class="fw-bold">⏱️ Average Approval Time</h4>
-                            <div class="display-4 text-primary fw-bold">{{ round($averageApprovalTime, 2) }} Hours</div>
-                            <p class="text-muted mt-2">Time between submission and approval</p>
+                            <h4 class="fw-bold">@lang('admin.dashboard.charts.approval_time')</h4>
+                            <div class="display-4 text-primary fw-bold">{{ round($averageApprovalTime, 2) }} @lang('admin.dashboard.units.hours')</div>
+                            <p class="text-muted mt-2">@lang('admin.dashboard.charts.approval_time_description')</p>
                         </div>
                     </div>
                 </div>
@@ -252,7 +263,7 @@
             type: 'line',
             data: {
                 labels: {!! json_encode(
-                    array_values(array_map(fn($m) => date('M', mktime(0, 0, 0, $m, 10)), array_keys($monthlyPosts->toArray()))),
+                    array_values(array_map(function($m) { return date('M', mktime(0, 0, 0, $m, 10)); }, array_keys($monthlyPosts->toArray()))),
                 ) !!},
                 datasets: [{
                     label: 'Posts Published',

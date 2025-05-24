@@ -6,16 +6,16 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Subsections</h4>
+                    <h4 class="card-title">@lang('admin.subsections.index.title')</h4>
                     <div class="heading-elements">
                         <ul class="list-inline mb-0">
-                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                            <li><a data-action="collapse" title="@lang('admin.subsections.index.card.collapse')"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="reload" title="@lang('admin.subsections.index.card.reload')"><i class="ft-rotate-cw"></i></a></li>
+                            <li><a data-action="expand" title="@lang('admin.subsections.index.card.expand')"><i class="ft-maximize"></i></a></li>
+                            <li><a data-action="close" title="@lang('admin.subsections.index.card.close')"><i class="ft-x"></i></a></li>
                             <li>
                                 <a href="{{ route('admin.subsections.create') }}" class="btn btn-sm btn-primary">
-                                    <i class="ft-plus"></i> Create New
+                                    <i class="ft-plus"></i> @lang('admin.subsections.index.create_button')
                                 </a>
                             </li>
                         </ul>
@@ -26,14 +26,14 @@
                         <table class="table table-striped table-bordered zero-configuration">
                             <thead>
                                 <tr>
-                                    <th>Name (AR)</th>
-                                    <th>Name (EN)</th>
-                                    <th>Section</th>
-                                    <th style="width: 120px">Actions</th>
+                                    <th>@lang('admin.subsections.index.table.name_ar')</th>
+                                    <th>@lang('admin.subsections.index.table.name_en')</th>
+                                    <th>@lang('admin.subsections.index.table.section')</th>
+                                    <th style="width: 120px">@lang('admin.subsections.index.table.actions')</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($subsections as $subsection)
+                                @forelse ($subsections as $subsection)
                                 <tr>
                                     <td>{{ $subsection->getTranslation('name', 'ar') ?? '-' }}</td>
                                     <td>{{ $subsection->getTranslation('name', 'en') ?? '-' }}</td>
@@ -42,12 +42,12 @@
                                         <div class="btn-group btn-group-sm" role="group">
                                             <a href="{{ route('admin.subsections.show', $subsection->id) }}" 
                                                class="btn btn-sm btn-outline-primary" 
-                                               title="View">
+                                               title="@lang('admin.subsections.index.actions.view')">
                                                 <i class="ft-eye"></i>
                                             </a>
                                             <a href="{{ route('admin.subsections.edit', $subsection->id) }}" 
                                                class="btn btn-sm btn-outline-warning" 
-                                               title="Edit">
+                                               title="@lang('admin.subsections.index.actions.edit')">
                                                 <i class="ft-edit"></i>
                                             </a>
                                             <form action="{{ route('admin.subsections.destroy', $subsection->id) }}" 
@@ -57,15 +57,19 @@
                                                 @method('DELETE')
                                                 <button type="submit" 
                                                         class="btn btn-sm btn-outline-danger" 
-                                                        title="Delete"
-                                                        onclick="return confirm('Are you sure?')">
+                                                        title="@lang('admin.subsections.index.actions.delete')"
+                                                        onclick="return confirm('@lang('admin.subsections.index.actions.delete_confirm')')">
                                                     <i class="ft-trash-2"></i>
                                                 </button>
                                             </form>
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <tr>
+                                    <td colspan="4" class="text-center">@lang('admin.subsections.index.table.no_data')</td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
