@@ -55,6 +55,7 @@ Route::get('/post/most-interactive', [PostController::class, 'mostInteractivePos
 Route::get('/post/latest', [PostController::class, 'latestPosts']);
 Route::get('/post/writer/{writerId}', [PostController::class, 'postsByWriter']);
 Route::get('/writer/posts', [WriterController::class, 'myPostsWithDetails']);
+Route::get('/writers', [WriterController::class, 'index']);
 Route::post('/reply-to-comment', [WriterController::class, 'replyToComment']);
 Route::get('/post/comments-with-replies/{postId}', [WriterController::class, 'getPostCommentsWithReplies']);
 

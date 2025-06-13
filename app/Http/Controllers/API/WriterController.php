@@ -9,7 +9,35 @@ use App\Models\Writer;
 use Illuminate\Support\Facades\Auth;
 class WriterController extends Controller
 {
+    public function index() {
+        $writers = Writer::with(['user', 'subsection.section'])->get();
     
+        $writers->transform(function ($writer) {
+
+            if ($writer->image && !str_starts_with($writer->image, '/storage/')) {
+                $writer->image = '/storage/' . $writer->image;
+            }
+
+            if ($writer->user && $writer->user->image_path && !str_starts_with($writer->user->image_path, '/storage/')) {
+                $writer->user->image_path = '/storage/' . $writer->user->image_path;
+            }
+    
+   
+            if ($writer->subsection && $writer->subsection->section && $writer->subsection->section->image) {
+                if (!str_starts_with($writer->subsection->section->image, '/storage/')) {
+                    $writer->subsection->section->image = '/storage/' . $writer->subsection->section->image;
+                }
+            }
+    
+            return $writer;
+        });
+    
+        return response()->json([
+            'success' => true,
+            'data' => $writers,
+            'message' => 'Writers retrieved successfully'
+        ]);
+    }
     
     public function myPostsWithDetails()
     {
