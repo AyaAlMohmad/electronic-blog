@@ -58,7 +58,7 @@ Route::get('/writer/posts', [WriterController::class, 'myPostsWithDetails']);
 Route::get('/writers', [WriterController::class, 'index']);
 Route::post('/reply-to-comment', [WriterController::class, 'replyToComment']);
 Route::get('/post/comments-with-replies/{postId}', [WriterController::class, 'getPostCommentsWithReplies']);
-
+Route::get('/writer/notifications', [WriterController::class, 'myNotifications']);
 Route::prefix('posts/{id}')->group(function () {
     // Like routes
     Route::post('/like', [LikeController::class, 'likePost']);

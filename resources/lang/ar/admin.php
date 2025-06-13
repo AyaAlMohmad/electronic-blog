@@ -155,6 +155,10 @@ return [
                 'approve' => 'موافقة',
                 'delete' => 'حذف',
                 'confirm_delete' => 'هل أنت متأكد؟',
+          
+                'approve' => 'موافقة',
+                'delete' => 'حذف',
+                'confirm_delete' => 'هل أنت متأكد أنك تريد حذف هذا المنشور؟',
             ],
             'card' => [
                 'collapse' => 'تصغير',
@@ -183,9 +187,16 @@ return [
                 'confirm_approve' => 'هل أنت متأكد من الموافقة على هذا المنشور؟',
                 'confirm_reject' => 'هل أنت متأكد من رفض هذا المنشور؟',
                 'confirm_delete' => 'هل أنت متأكد من حذف هذا المنشور؟',
+                'reject' => 'رفض',
+                'confirm_reject' => 'إرسال الرفض',
+                'reject_reason' => 'سبب الرفض',
+                'reason_label' => 'الرجاء تقديم سبب لرفض هذا المنشور',
             ],
         ],
+     
+     
     ],
+    'cancel' => 'إلغاء',
     'about_us' => [
         'index' => [
             'title' => 'من نحن',
@@ -401,4 +412,5 @@ return [
             'back_button' => 'العودة للقائمة',
         ],
     ],
+  
 ];

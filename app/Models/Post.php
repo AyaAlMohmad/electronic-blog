@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Notifications\Notifiable;
 use Spatie\Translatable\HasTranslations;
 
 class Post extends Model
 {
     use HasTranslations;
-
+    use Notifiable;
     protected $fillable = [
         'writer_id',
         'image',

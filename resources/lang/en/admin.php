@@ -155,6 +155,11 @@ return [
                 'approve' => 'Approve',
                 'delete' => 'Delete',
                 'confirm_delete' => 'Are you sure?',
+               
+                    'approve' => 'Approve',
+                    'delete' => 'Delete',
+                    'confirm_delete' => 'Are you sure you want to delete this post?',
+                
             ],
             'card' => [
                 'collapse' => 'Collapse',
@@ -183,9 +188,17 @@ return [
                 'confirm_approve' => 'Are you sure to approve this post?',
                 'confirm_reject' => 'Are you sure to reject this post?',
                 'confirm_delete' => 'Are you sure to delete this post?',
+           
+               
+                'confirm_reject' => 'Send Rejection',
+                'reject_reason' => 'Reason for Rejection',
+                'reason_label' => 'Please provide a reason for rejecting this post',
             ],
         ],
+     
+      
     ],
+    'cancel' => 'Cancel',    
     'about_us' => [
         'index' => [
             'title' => 'About Us',
@@ -401,4 +414,6 @@ return [
             'back_button' => 'Back to List',
         ],
     ],
+  
+
 ];

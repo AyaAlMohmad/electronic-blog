@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Notifications\PostStatusChanged;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -23,19 +24,45 @@ class PostController extends Controller
     }
 
     // Approve a specific post
+    // public function approve(Post $post)
+    // {
+    //     $post->update(['is_approved' => 1]);
+    //     return redirect()->back()->with('success', 'The post has been approved.');
+    // }
     public function approve(Post $post)
     {
         $post->update(['is_approved' => 1]);
+    
+        if ($post->writer) {
+            $post->writer->notify(new PostStatusChanged($post, 'approved'));
+        }
+    
         return redirect()->back()->with('success', 'The post has been approved.');
     }
-
+    
     // Reject a specific post
-    public function reject(Post $post)
+    // public function reject(Post $post)
+    // {
+    //     $post->update(['is_approved' => 0]);
+    //     return redirect()->back()->with('success', 'The post has been rejected.');
+    // }
+    public function reject(Request $request, Post $post)
     {
+        $request->validate([
+            'reason' => 'nullable|string|max:1000',
+        ]);
+    if($post->is_approved == 0){
+        $post->delete();
+    }else{
         $post->update(['is_approved' => 0]);
+    }
+        if ($post->writer) {
+            $post->writer->notify(new PostStatusChanged($post, 'rejected', $request->reason));
+        }
+    
         return redirect()->back()->with('success', 'The post has been rejected.');
     }
-
+    
     // Delete a specific post
     public function destroy(Post $post)
     {

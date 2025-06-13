@@ -120,5 +120,36 @@ public function getPostCommentsWithReplies($postId)
         'data' => $comments
     ]);
 }
-  
+public function myNotifications()
+{
+    $user = Auth::user();
+
+    if (!$user) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $writer = Writer::where('user_id', $user->id)->first();
+
+    if (!$writer) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Writer not found'
+        ], 404);
+    }
+
+    $notifications = $writer->notifications()
+        ->orderBy('created_at', 'desc')
+        ->take(20)
+        ->get();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Notifications retrieved successfully',
+        'data' => $notifications
+    ]);
+}
+
 }
