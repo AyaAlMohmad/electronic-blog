@@ -50,7 +50,11 @@ class WriterController extends Controller
             ], 401);
         }
     
-        $writer = Writer::where('user_id', $user->id)->first();
+        $writer = Writer::where('user_id', $user->id)
+            ->with(['user' => function($query) {
+                $query->select('id', 'name', 'email');
+            }])
+            ->first();
     
         if (!$writer) {
             return response()->json([
@@ -74,9 +78,24 @@ class WriterController extends Controller
                 'date',
             ]);
     
+        // If no posts exist, return writer profile only
+        if ($posts->isEmpty()) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'writer' => $writer,
+                    'posts' => []
+                ],
+                'message' => 'Writer profile retrieved successfully (no posts found)'
+            ]);
+        }
+    
         return response()->json([
             'success' => true,
-            'data' => $posts,
+            'data' => [
+                'writer' => $writer,
+                'posts' => $posts
+            ],
             'message' => 'Your posts with comments and likes retrieved successfully'
         ]);
     }
