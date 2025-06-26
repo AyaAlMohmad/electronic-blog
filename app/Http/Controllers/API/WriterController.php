@@ -38,6 +38,73 @@ class WriterController extends Controller
             'message' => 'Writers retrieved successfully'
         ]);
     }
+    public function allWritersWithPosts()
+{
+    $writers = Writer::with([
+        'user:id,name,email',
+        'posts' => function ($query) {
+            $query->select('id', 'writer_id', 'title', 'short_description', 'image', 'video', 'date')
+                  ->withCount(['likes', 'comments']);
+        }
+    ])->get();
+
+    // تأكد من معالجة روابط الصور إذا لزم الأمر
+    $writers->transform(function ($writer) {
+        if ($writer->image && !str_starts_with($writer->image, '/storage/')) {
+            $writer->image = '/storage/' . $writer->image;
+        }
+
+        if ($writer->user && $writer->user->image_path && !str_starts_with($writer->user->image_path, '/storage/')) {
+            $writer->user->image_path = '/storage/' . $writer->user->image_path;
+        }
+
+        return $writer;
+    });
+
+    return response()->json([
+        'success' => true,
+        'message' => 'All writers with their posts retrieved successfully',
+        'data' => $writers
+    ]);
+}
+public function postsWithDetailsByWriter($writerId)
+{
+    $writer = \App\Models\Writer::where('id', $writerId)
+        ->with(['user:id,name,email'])
+        ->first();
+
+    if (!$writer) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Writer not found'
+        ], 404);
+    }
+
+    $posts = $writer->posts()
+        ->with(['comments.user', 'likes'])
+        ->withCount(['comments', 'likes']) 
+        ->orderByRaw('likes_count + comments_count DESC')
+        ->latest()
+        ->get([
+            'id',
+            'title',
+            'description',
+            'short_description',
+            'image',
+            'video',
+            'date',
+        ]);
+
+    return response()->json([
+        'success' => true,
+        'data' => [
+            'writer' => $writer,
+            'posts' => $posts
+        ],
+        'message' => 'Posts by writer with comments and likes retrieved successfully'
+    ]);
+}
+
     
     public function myPostsWithDetails()
     {
@@ -99,6 +166,7 @@ class WriterController extends Controller
             'message' => 'Your posts with comments and likes retrieved successfully'
         ]);
     }
+  
     public function replyToComment(Request $request)
 {
     $request->validate([

@@ -55,6 +55,9 @@ Route::get('/post/most-interactive', [PostController::class, 'mostInteractivePos
 Route::get('/post/latest', [PostController::class, 'latestPosts']);
 Route::get('/post/writer/{writerId}', [PostController::class, 'postsByWriter']);
 Route::get('/writer/posts', [WriterController::class, 'myPostsWithDetails']);
+Route::get('/writers/allposts', [WriterController::class, 'allWritersWithPosts']);
+Route::get('/writers/{id}', [WriterController::class, 'postsWithDetailsByWriter']);
+
 Route::get('/writers', [WriterController::class, 'index']);
 Route::post('/reply-to-comment', [WriterController::class, 'replyToComment']);
 Route::get('/post/comments-with-replies/{postId}', [WriterController::class, 'getPostCommentsWithReplies']);
@@ -63,7 +66,7 @@ Route::prefix('posts/{id}')->group(function () {
     // Like routes
     Route::post('/like', [LikeController::class, 'likePost']);
     Route::delete('/like', [LikeController::class, 'unlikePost']);
-    Route::get('/like/check', [LikeController::class, 'checkLike']);
+    Route::get('/like/check/', [LikeController::class, 'checkLike']);
     
     // Comment routes
     Route::get('/comments', [CommentController::class, 'getComments']);

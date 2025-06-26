@@ -16,23 +16,13 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::with('writer:id,name')
-        ->where('is_approved', true)
-            ->latest()
-            ->get([
-                'id',
-                'writer_id',
-                'image',
-                'video',
-                'title',
-                'description',
-                'short_description',
-                'date'
-            ]);
-
-      
-            
        
+    $posts = Post::with('writer:id,name')
+    ->withCount(['likes', 'comments'])
+    ->where('is_approved', true)
+    ->latest()
+    ->selectRaw('id, writer_id, image, video, title, description, short_description, date')
+    ->get();
 
         return response()->json([
             'success' => true,
@@ -40,6 +30,7 @@ class PostController extends Controller
             'message' => 'Posts retrieved successfully.'
         ]);
     }
+    
 
     /**
      * Store a newly created post.
@@ -104,18 +95,11 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::with('writer:id,name')
-        ->where('is_approved', true)
-            ->select([
-                'id',
-                'writer_id',
-                'image',
-                'video',
-                'title',
-                'description',
-                'short_description',
-                'date'
-            ])
+            ->withCount(['likes', 'comments'])
+            ->where('is_approved', true)
+          ->selectRaw('id, writer_id, image, video, title, description, short_description, date')
             ->find($id);
+
 
         if (!$post) {
             return response()->json([
@@ -123,16 +107,14 @@ class PostController extends Controller
                 'message' => 'Post not found'
             ], 404);
         }
-
-        // Modify image and video URLs
-      
-
+    
         return response()->json([
             'success' => true,
             'data' => $post,
             'message' => 'Post retrieved successfully.'
         ]);
     }
+    
 
     /**
      * Update the specified post.
