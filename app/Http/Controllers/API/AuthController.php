@@ -158,106 +158,89 @@ class AuthController extends Controller
     //         'user' => $user
     //     ]);
     // }
-    public function updateProfile(Request $request)
-    {
-        $userid=Auth::id();
-        $user = User::where('id', $userid)->first();
+ public function updateProfile(Request $request)
+{
+    $userid = Auth::id();
+    $user = User::where('id', $userid)->first();
+    
+    $validated = $request->validate([
+        'name' => 'sometimes|string|max:255',
+        'email' => 'sometimes|email|unique:users,email,' . $user->id,
+        'password' => 'sometimes|string|min:6|confirmed',
+        'image' => 'nullable|file|image|max:2048', // صورة واحدة لليوزر والكاتب
+        'bio' => 'sometimes|json',
+        'subsection_id' => 'sometimes|exists:subsections,id',
+    ]);
+
+    // تحديث كلمة المرور إذا تم تقديمها
+    if ($request->has('password')) {
+        $validated['password'] = bcrypt($validated['password']);
+    }
+
+    // التعامل مع صورة المستخدم/الكاتب
+    if ($request->hasFile('image')) {
+        // حذف الصورة القديمة إذا كانت موجودة
+        if ($user->image_path) {
+            Storage::disk('public')->delete(str_replace('/storage/', '', $user->image_path));
+        }
+
+        // رفع الصورة الجديدة
+        $path = $request->file('image')->store('profiles', 'public');
+        $validated['image_path'] = '/storage/'.$path;
+    }
+
+    // تحديث بيانات المستخدم
+    $user->update($validated);
+
+    // إذا كان المستخدم كاتبًا، تحديث بيانات الكاتب
+    if ($user->is_writer) {
+        $writer = $user->writer()->firstOrNew();
+        $writerData = [
+            'name' => $user->name,
+            'image' => $user->image_path,
+        ];
+
+        if ($request->has('bio')) {
+            try {
+                $bioData = json_decode($validated['bio'], true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $writerData['bio'] = $bioData;
+                }
+            } catch (\Exception $e) {
+                // يمكنك تسجيل الخطأ إذا لزم الأمر
+            }
+        }
         
-        $validated = $request->validate([
-            // User fields
-            'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|unique:users,email,' . $user->id,
-            'password' => 'sometimes|string|min:6|confirmed',
-            'image' => 'nullable|file|image|max:2048',
-            
-            // Writer fields
-            'bio' => 'sometimes|json',
-            'subsection_id' => 'sometimes|exists:subsections,id',
-            'writer_image' => 'nullable|file|image|max:2048'
-        ]);
-    
-        // Update password if provided
-        if ($request->has('password')) {
-            $validated['password'] = bcrypt($validated['password']);
+        if ($request->has('subsection_id')) {
+            $writerData['subsection_id'] = $validated['subsection_id'];
         }
+
+        $writer->fill($writerData)->save();
+    }
+
+    return response()->json([
+        'message' => 'Profile updated successfully',
+        'user' => $user->load('writer'),
+    ]);
+}
+
+protected function getUpdatedFields($validated, $request)
+{
+    $updated = [];
     
-        // Handle user image update
-        if ($request->hasFile('image')) {
-            if ($user->image_path) {
-                Storage::disk('public')->delete(str_replace('/storage/', '', $user->image_path));
-            }
-            $path = $request->file('image')->store('profiles', 'public');
-            $validated['image_path'] = '/storage/'.$path;
-        }
+    // Check user fields
+    if (isset($validated['name'])) $updated[] = 'name';
+    if (isset($validated['email'])) $updated[] = 'email';
+    if (isset($validated['password'])) $updated[] = 'password';
+    if ($request->hasFile('image')) $updated[] = 'image';
     
-        // Update user fields
-        $user->update($validated);
-    
-        // If user is a writer, update writer profile
-        if ($user->is_writer) {
-            $writer = $user->writer()->firstOrNew();
-            $writerData = [];
-            
-            // Set writer name as simple string (same as user name)
-            $writerData['name'] = $user->name;
-            
-            // Handle bio update
-            if ($request->has('bio')) {
-                try {
-                    $bioData = json_decode($validated['bio'], true);
-                    if (json_last_error() === JSON_ERROR_NONE) {
-                        $writerData['bio'] = $bioData;
-                    }
-                } catch (\Exception $e) {
-                    // Handle JSON decode error if needed
-                }
-            }
-            
-            if ($request->has('subsection_id')) {
-                $writerData['subsection_id'] = $validated['subsection_id'];
-            }
-            
-            // Handle writer image update
-            if ($request->hasFile('writer_image')) {
-                if ($writer->image) {
-                    Storage::disk('public')->delete($writer->image);
-                }
-                $path = $request->file('writer_image')->store('writers', 'public');
-                $writerData['image'] = $path;
-            }
-            
-            // Update or create writer profile
-            $writer->fill($writerData)->save();
-        }
-    
-        // Reload relationships
-        $user->load('writer');
-    
-        return response()->json([
-            'message' => 'Profile updated successfully',
-            'updated_fields' => $this->getUpdatedFields($validated, $request),
-            'user' => $user,
-            // 'writer' => $user->is_writer ? $user->writer : null
-        ]);
+    // Check writer fields
+    if ($request->user()->is_writer) {
+        if (isset($validated['bio'])) $updated[] = 'bio';
+        if (isset($validated['subsection_id'])) $updated[] = 'subsection_id';
+        // تمت إزالة writer_image من القائمة
     }
     
-    protected function getUpdatedFields($validated, $request)
-    {
-        $updated = [];
-        
-        // Check user fields
-        if (isset($validated['name'])) $updated[] = 'name';
-        if (isset($validated['email'])) $updated[] = 'email';
-        if (isset($validated['password'])) $updated[] = 'password';
-        if ($request->hasFile('image')) $updated[] = 'image';
-        
-        // Check writer fields
-        if ($request->user()->is_writer) {
-            if (isset($validated['bio'])) $updated[] = 'bio';
-            if (isset($validated['subsection_id'])) $updated[] = 'subsection_id';
-            if ($request->hasFile('writer_image')) $updated[] = 'writer_image';
-        }
-        
-        return $updated;
-    }
+    return $updated;
+}
 }
