@@ -219,12 +219,15 @@ class PostController extends Controller
         }
 
         // Check if user is the writer of this post
-        if (Auth::user()->writer->id !== $post->writer_id) {
+        $writer = Auth::user()->writer;
+
+        if (!$writer || $writer->id != $post->writer_id) {
             return response()->json([
                 'success' => false,
                 'message' => 'You can only delete your own posts'
             ], 403);
         }
+        
 
         // Delete associated files
         if ($post->image) {

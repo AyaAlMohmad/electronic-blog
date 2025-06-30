@@ -83,25 +83,26 @@ class CommentController extends Controller
     {
         $comment = PostComment::where('id', $commentId)
                             ->where('post_id', $postId)
+                            ->where('user_id',Auth::id())
                             ->first();
     
         if (!$comment) {
             return response()->json([
                 'success' => false,
-                'message' => 'Comment not found for this post'
+                'message' => 'Comment not found for this post or you are not authorized to delete this comment'
             ], 404);
         }
     
         // Check if user is the comment owner or post owner
-        $isCommentOwner = $comment->user_id === Auth::id();
-        $isPostOwner = $comment->post->writer_id === Auth::user()->writer->id;
+        // $isCommentOwner = $comment->user_id == Auth::id();
+        // $isPostOwner = $comment->post->writer_id == Auth::user()->writer->id;
     
-        if (!$isCommentOwner && !$isPostOwner) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Unauthorized to delete this comment'
-            ], 403);
-        }
+        // if (!$isCommentOwner && !$isPostOwner) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Unauthorized to delete this comment'
+        //     ], 403);
+        // }
     
         $comment->delete();
     
