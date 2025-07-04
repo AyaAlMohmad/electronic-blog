@@ -42,6 +42,7 @@ Route::middleware('auth:api')->group(function(){
 
     Route::get('sub-sections',[SubSectionController::class, 'index']);
     Route::get('sub-sections/{id}',[SubSectionController::class, 'show']);
+    Route::get('sub-sections/{id}/details', [SubSectionController::class, 'showSubsectionDetails']);
  
 
 Route::get('/about-us', [AboutUsController::class, 'index']);

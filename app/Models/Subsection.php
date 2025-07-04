@@ -19,8 +19,13 @@ class Subsection extends Model
         return $this->belongsTo(Section::class);
     }
 
+    public function writers()
+    {
+        return $this->hasMany(Writer::class);
+    }
     public function posts()
     {
         return $this->hasMany(Post::class);
     }
+    
 }
